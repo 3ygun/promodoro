@@ -49,6 +49,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
 
     componentDidMount() {
         TodosStore.addTodo("Hello World");
+        TodosStore.addTodo("Hello 2");
     }
 
     render() {

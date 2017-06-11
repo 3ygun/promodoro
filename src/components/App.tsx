@@ -5,6 +5,7 @@
 import RX = require('reactxp');
 
 import TodoList from './TodoList';
+import TodoCreator from './TodoCreator';
 
 const styles = {
     container: RX.Styles.createViewStyle({
@@ -13,6 +14,10 @@ const styles = {
         alignItems: 'center',
         backgroundColor: '#f5fcff'
     }),
+    box: RX.Styles.createViewStyle({
+        height: 500,
+        width: 300,
+    }),
 };
 
 class App extends RX.Component<object, object> {
@@ -20,8 +25,10 @@ class App extends RX.Component<object, object> {
     render(): JSX.Element | null {
         return (
             <RX.View style={styles.container}>
-                <RX.Text>{'Test'}</RX.Text>
-                <TodoList />
+                <RX.View style={styles.box}>
+                    <TodoCreator />
+                    <TodoList />
+                </RX.View>
             </RX.View>
         );
     }
