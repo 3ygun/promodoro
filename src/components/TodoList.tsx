@@ -2,7 +2,7 @@ import RX = require('reactxp');
 import { ComponentBase } from 'resub';
 import { VirtualListView, VirtualListViewItemInfo } from 'reactxp-virtuallistview';
 
-import TodosStore = require('./TodosStore');
+import TodosStore = require('../stores/TodosStore');
 
 interface TodoListViewItemInfo extends VirtualListViewItemInfo {
     text: string;

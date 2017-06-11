@@ -15,7 +15,7 @@ const styles = {
     }),
 };
 
-class App extends RX.Component<null, null> {
+class App extends RX.Component<object, object> {
 
     render(): JSX.Element | null {
         return (
