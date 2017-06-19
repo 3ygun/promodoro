@@ -94,7 +94,11 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
     componentDidMount() {
         TodosStore.addTodo("Hello World");
         TodosStore.addTodo("Hello 2");
-        TodosStore.addTodo("3");
+        TodosStore.addTodo("3 is bea");
+        TodosStore.addTodo("may is hay");
+        TodosStore.addTodo("   Winner!");
+        TodosStore.addTodo("This is a super long message of love, peace, and war!");
+        TodosStore.addTodo("Winner Chicken!");
     }
 
     render() {
