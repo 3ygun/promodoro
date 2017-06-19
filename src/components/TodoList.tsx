@@ -16,7 +16,7 @@ interface TodoListState {
     todos?: TodoListViewItemInfo[];
 }
 
-const _itemHeight = 28;
+const _itemHeight = 30;
 
 const _styles = {
     listScroll: RX.Styles.createViewStyle({
@@ -26,33 +26,33 @@ const _styles = {
     }),
     todoRow: RX.Styles.createViewStyle({
         padding: 5,
-        flex: 2,
         height: _itemHeight,
         justifyContent: 'flex-start',
         flexDirection: 'row',
     }),
-    fillWithBorder: RX.Styles.createViewStyle({
-        position: 'absolute',
-        top: 1,
-        right: 1,
-        bottom: 1,
-        left: 1,
-    }),
 
     todoStatusButton: RX.Styles.createButtonStyle({
-        width: 26,
+        flex: 0,
+        width: 20,
         borderWidth: 2,
         borderColor: '#000',
         borderStyle: 'solid',
         borderRadius: 6,
     }),
     todoTextAdjust: RX.Styles.createViewStyle({
-        left: 32,
+        flex: 1,
+        marginHorizontal: 5,
         justifyContent: 'center',
     }),
     todoText: RX.Styles.createTextStyle({
         fontSize: 20,
         color: '#666',
+    }),
+    todoOptions: RX.Styles.createViewStyle({
+        flex: 0,
+        width: 40,
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
     }),
 
     buttonGreen: RX.Styles.createViewStyle({
@@ -60,6 +60,15 @@ const _styles = {
     }),
     buttonRed: RX.Styles.createViewStyle({
         // backgroundColor: '#111',
+    }),
+
+    todoOptionsButton: RX.Styles.createButtonStyle({
+        flex: 1,
+        width: 20,
+    }),
+
+    deleteTodo: RX.Styles.createTextStyle({
+        color: '#f00',
     }),
 
     center: RX.Styles.createTextStyle({
@@ -99,20 +108,40 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
     }
 
     private _renderItem = (item: TodoListViewItemInfo, hasFocus?: boolean) => {
-        const buttonStyle: RX.Types.StyleRuleSet<RX.Types.ViewStyle> = item.completed ?  _styles.buttonGreen : _styles.buttonRed;
+        const buttonStyle: RX.Types.StyleRuleSet<RX.Types.ViewStyle> = item.completed ? _styles.buttonGreen : _styles.buttonRed;
 
         return (
             <RX.View style={_styles.todoRow}>
                 <RX.Button
-                    style={[_styles.todoStatusButton, _styles.fillWithBorder, buttonStyle]}
+                    style={[_styles.todoStatusButton, buttonStyle]}
                     onPress={() => this._onToggleStatus(item.index, item.id)}
                 >
-                    <RX.Text style={[_styles.center]}>{item.completed ? '\u2714' : ' '}</RX.Text>
+                    <RX.Text style={[_styles.center]}>
+                        {item.completed ? '\u2714' : ' '}
+                    </RX.Text>
                 </RX.Button>
-                <RX.View style={[_styles.fillWithBorder, _styles.todoTextAdjust]}>
+                <RX.View style={[_styles.todoTextAdjust]}>
                     <RX.Text style={[_styles.todoText]}>
                         {item.name}
                     </RX.Text>
+                </RX.View>
+                <RX.View style={[_styles.todoOptions]}>
+                    <RX.Button
+                        style={[_styles.todoOptionsButton]}
+                        onPress={() => TodosStore.editTodo(item.index, item.id)}
+                    >
+                        <RX.Text>
+                            {'\u270E'}
+                        </RX.Text>
+                    </RX.Button>
+                    <RX.Button
+                        style={[_styles.todoOptionsButton]}
+                        onPress={() => TodosStore.removeTodo(item.index, item.id)}
+                    >
+                        <RX.Text style={[_styles.deleteTodo]}>
+                            {'X'}
+                        </RX.Text>
+                    </RX.Button>
                 </RX.View>
             </RX.View >
         );

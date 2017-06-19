@@ -4,7 +4,7 @@ import { VirtualListView, VirtualListViewItemInfo } from 'reactxp-virtuallistvie
 
 import TodosStore = require('../stores/TodosStore');
 
-interface State {
+interface TodoCreatorState {
     todoText: string;
 }
 
@@ -20,32 +20,27 @@ const _styles = {
     })
 };
 
-export default class TodoCreator extends ComponentBase<{}, State> {
+export default class TodoCreator extends ComponentBase<{}, TodoCreatorState> {
+    protected _buildState(props: {}, initialBuild: boolean): TodoCreatorState {
+        return {
+            todoText: TodosStore.getTodoText(),
+        };
+    }
+
     render() {
         return (
             <RX.View>
                 <RX.TextInput
-                    style={ _styles.editTodoItem }
-                    value={ this.state.todoText }
-                    placeholder={ 'Enter reminder' }
-                    placeholderTextColor={ 'What todo?' }
-                    onChangeText={ this._onChangeText }
-                    onSubmitEditing={ this._onSubmitEditing }
-                    autoFocus={ true }
-                    textAlign={ 'left' }
+                    style={_styles.editTodoItem}
+                    value={this.state.todoText}
+                    placeholder={'Enter reminder'}
+                    placeholderTextColor={'What todo?'}
+                    onChangeText={(newText: string) => TodosStore.editTodoText(newText)}
+                    onSubmitEditing={() => TodosStore.submitTodo()}
+                    autoFocus={true}
+                    textAlign={'left'}
                 />
             </RX.View>
         );
-    }
-
-    private _onChangeText = (newText: string) => {
-        this.setState({ todoText: newText });
-    }
-
-    private _onSubmitEditing = () => {
-        if (this.state.todoText) {
-            TodosStore.addTodo(this.state.todoText)
-            this.setState({ todoText: '' });
-        }
     }
 }
