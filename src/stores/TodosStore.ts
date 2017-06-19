@@ -5,6 +5,7 @@ import { Todo } from '../types';
 class TodosStore extends StoreBase {
     private _todos: Todo[] = [];
     private _nextID: number = 0;
+    private _showComplete: boolean = true;
 
     addTodo(name: string) {
         const todo: Todo = {
@@ -19,17 +20,31 @@ class TodosStore extends StoreBase {
         this.trigger();
     }
 
-    toggleStatus(id: number) {
-        let todo = this._todos.find((todo) => {
-            return todo.id === id;
-        });
-        todo.completed = !todo.completed;
+    toggleStatus(index: number, id: number) {
+        let todo = this._todos[index];
+        if (todo.id === id) {
+            todo.completed = !todo.completed;
+        }
+        this.trigger();
+    }
+
+    toggleShowComplete() {
+        this._showComplete = !this._showComplete;
         this.trigger();
     }
 
     @autoSubscribe
-    getTodos() {
-        return this._todos;
+    getTodos(): Todo[] {
+        if (this._showComplete) {
+            return this._todos;
+        } else {
+            return this._todos.filter((todo) => !todo.completed);
+        }
+    }
+
+    @autoSubscribe
+    getShowComplete(): boolean {
+        return this._showComplete;
     }
 }
 

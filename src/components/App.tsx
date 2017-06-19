@@ -6,6 +6,7 @@ import RX = require('reactxp');
 
 import TodoList from './TodoList';
 import TodoCreator from './TodoCreator';
+import TodoControl from './TodoControl';
 
 const styles = {
     container: RX.Styles.createViewStyle({
@@ -28,6 +29,7 @@ class App extends RX.Component<object, object> {
                 <RX.View style={styles.box}>
                     <TodoCreator />
                     <TodoList />
+                    <TodoControl />
                 </RX.View>
             </RX.View>
         );

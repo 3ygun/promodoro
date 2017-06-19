@@ -6,6 +6,7 @@ import TodosStore = require('../stores/TodosStore');
 import { Todo } from '../types';
 
 interface TodoListViewItemInfo extends VirtualListViewItemInfo {
+    index: number;
     id: number;
     name: string;
     completed: boolean;
@@ -71,6 +72,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
         return {
             todos: TodosStore.getTodos().map((todo, i) => {
                 return {
+                    index: i,
                     key: i.toString(),
                     height: _itemHeight,
                     template: 'todo',
@@ -103,7 +105,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
             <RX.View style={_styles.todoRow}>
                 <RX.Button
                     style={[_styles.todoStatusButton, _styles.fillWithBorder, buttonStyle]}
-                    onPress={() => this._onToggleStatus(item.id)}
+                    onPress={() => this._onToggleStatus(item.index, item.id)}
                 >
                     <RX.Text style={[_styles.center]}>{item.completed ? '\u2714' : ' '}</RX.Text>
                 </RX.Button>
@@ -116,7 +118,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
         );
     }
 
-    private _onToggleStatus = (id: number) => {
-        TodosStore.toggleStatus(id);
+    private _onToggleStatus = (index: number, id: number) => {
+        TodosStore.toggleStatus(index, id);
     }
 }
