@@ -3,16 +3,19 @@ import { ComponentBase } from 'resub';
 import { VirtualListView, VirtualListViewItemInfo } from 'reactxp-virtuallistview';
 
 import TodosStore = require('../stores/TodosStore');
+import { Todo } from '../types';
 
 interface TodoListViewItemInfo extends VirtualListViewItemInfo {
-    text: string;
+    id: number;
+    name: string;
+    completed: boolean;
 }
 
 interface TodoListState {
     todos?: TodoListViewItemInfo[];
 }
 
-const _itemHeight = 32;
+const _itemHeight = 28;
 
 const _styles = {
     listScroll: RX.Styles.createViewStyle({
@@ -20,17 +23,47 @@ const _styles = {
         alignSelf: 'stretch',
         backgroundColor: '#fff',
     }),
-    itemCell: RX.Styles.createViewStyle({
-        flex: 1,
+    todoRow: RX.Styles.createViewStyle({
+        padding: 5,
+        flex: 2,
         height: _itemHeight,
-        justifyContent: 'center'
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
     }),
-    itemText: RX.Styles.createTextStyle({
+    fillWithBorder: RX.Styles.createViewStyle({
+        position: 'absolute',
+        top: 1,
+        right: 1,
+        bottom: 1,
+        left: 1,
+    }),
+
+    todoStatusButton: RX.Styles.createButtonStyle({
+        width: 26,
+        borderWidth: 2,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderRadius: 6,
+    }),
+    todoTextAdjust: RX.Styles.createViewStyle({
+        left: 32,
+        justifyContent: 'center',
+    }),
+    todoText: RX.Styles.createTextStyle({
         fontSize: 20,
-        marginHorizontal: 8,
-        alignSelf: 'stretch',
-        color: '#666'
-    })
+        color: '#666',
+    }),
+
+    buttonGreen: RX.Styles.createViewStyle({
+        backgroundColor: '#bbb',
+    }),
+    buttonRed: RX.Styles.createViewStyle({
+        // backgroundColor: '#111',
+    }),
+
+    center: RX.Styles.createTextStyle({
+        alignSelf: 'center',
+    }),
 };
 
 export default class TodoList extends ComponentBase<{}, TodoListState> {
@@ -41,7 +74,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
                     key: i.toString(),
                     height: _itemHeight,
                     template: 'todo',
-                    text: todo,
+                    ...todo,
                 };
             })
         };
@@ -50,6 +83,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
     componentDidMount() {
         TodosStore.addTodo("Hello World");
         TodosStore.addTodo("Hello 2");
+        TodosStore.addTodo("3");
     }
 
     render() {
@@ -63,12 +97,26 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
     }
 
     private _renderItem = (item: TodoListViewItemInfo, hasFocus?: boolean) => {
+        const buttonStyle: RX.Types.StyleRuleSet<RX.Types.ViewStyle> = item.completed ?  _styles.buttonGreen : _styles.buttonRed;
+
         return (
-            <RX.View style={_styles.itemCell}>
-                <RX.Text style={_styles.itemText} numberOfLines={1}>
-                    {item.text}
-                </RX.Text>
-            </RX.View>
+            <RX.View style={_styles.todoRow}>
+                <RX.Button
+                    style={[_styles.todoStatusButton, _styles.fillWithBorder, buttonStyle]}
+                    onPress={() => this._onToggleStatus(item.id)}
+                >
+                    <RX.Text style={[_styles.center]}>{item.completed ? '\u2714' : ' '}</RX.Text>
+                </RX.Button>
+                <RX.View style={[_styles.fillWithBorder, _styles.todoTextAdjust]}>
+                    <RX.Text style={[_styles.todoText]}>
+                        {item.name}
+                    </RX.Text>
+                </RX.View>
+            </RX.View >
         );
+    }
+
+    private _onToggleStatus = (id: number) => {
+        TodosStore.toggleStatus(id);
     }
 }
