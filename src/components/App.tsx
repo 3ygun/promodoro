@@ -4,6 +4,7 @@
 
 import RX = require('reactxp');
 
+import Promodoro from './Promodoro';
 import TodoList from './TodoList';
 import TodoCreator from './TodoCreator';
 import TodoControl from './TodoControl';
@@ -16,7 +17,7 @@ const styles = {
         backgroundColor: '#f5fcff'
     }),
     box: RX.Styles.createViewStyle({
-        height: 500,
+        height: 700,
         width: 300,
     }),
 };
@@ -27,6 +28,7 @@ class App extends RX.Component<object, object> {
         return (
             <RX.View style={styles.container}>
                 <RX.View style={styles.box}>
+                    <Promodoro />
                     <TodoCreator />
                     <TodoList />
                     <TodoControl />
