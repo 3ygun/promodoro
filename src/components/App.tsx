@@ -17,7 +17,7 @@ const styles = {
         backgroundColor: '#f5fcff'
     }),
     box: RX.Styles.createViewStyle({
-        height: 700,
+        height: 500,
         width: 300,
     }),
 };

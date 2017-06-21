@@ -55,10 +55,10 @@ const _styles = {
         flexDirection: 'row',
     }),
 
-    buttonGreen: RX.Styles.createViewStyle({
+    buttonComplete: RX.Styles.createViewStyle({
         backgroundColor: '#bbb',
     }),
-    buttonRed: RX.Styles.createViewStyle({
+    buttonInProgress: RX.Styles.createViewStyle({
         // backgroundColor: '#111',
     }),
 
@@ -112,7 +112,7 @@ export default class TodoList extends ComponentBase<{}, TodoListState> {
     }
 
     private _renderItem = (item: TodoListViewItemInfo, hasFocus?: boolean) => {
-        const buttonStyle: RX.Types.StyleRuleSet<RX.Types.ViewStyle> = item.completed ? _styles.buttonGreen : _styles.buttonRed;
+        const buttonStyle: RX.Types.StyleRuleSet<RX.Types.ViewStyle> = item.completed ? _styles.buttonComplete : _styles.buttonInProgress;
 
         return (
             <RX.View style={_styles.todoRow}>
