@@ -1,7 +1,7 @@
 import RX = require('reactxp');
 import { ComponentBase } from 'resub';
 
-import StopwatchStore = require('../stores/StopwatchStore');
+import TimerStore = require('../stores/TimerStore');
 
 
 interface PromodoroState {
@@ -45,9 +45,9 @@ const _styles = {
 export default class TodoControl extends ComponentBase<object, PromodoroState> {
     protected _buildState(props: {}, initialBuild: boolean): PromodoroState {
         return {
-            running: StopwatchStore.getRunningStatus(),
-            minutes: StopwatchStore.getMinutesFormatted(),
-            seconds: StopwatchStore.getSecondsFormatted(),
+            running: TimerStore.getRunningStatus(),
+            minutes: TimerStore.getMinutesFormatted(),
+            seconds: TimerStore.getSecondsFormatted(),
         };
     }
 
@@ -57,7 +57,7 @@ export default class TodoControl extends ComponentBase<object, PromodoroState> {
                 <RX.View style={[_styles.optionsRow]}>
                     <RX.Button
                         style={[_styles.optionButton]}
-                        onPress={() => StopwatchStore.setupTimer(25, 0)}
+                        onPress={() => TimerStore.setupTimer(25, 0)}
                     >
                         <RX.Text style={[_styles.optionText]}>
                             {'Promodoro'}
@@ -65,7 +65,7 @@ export default class TodoControl extends ComponentBase<object, PromodoroState> {
                     </RX.Button>
                     <RX.Button
                         style={[_styles.optionButton]}
-                        onPress={() => StopwatchStore.setupTimer(5, 0)}
+                        onPress={() => TimerStore.setupTimer(5, 0)}
                     >
                         <RX.Text style={[_styles.optionText]}>
                             {'Break'}
@@ -74,7 +74,7 @@ export default class TodoControl extends ComponentBase<object, PromodoroState> {
                     <RX.Button
                         style={[_styles.optionButton]}
                         onPress={() => {
-                            this.state.running ? StopwatchStore.stopWatch() : StopwatchStore.startWatch()
+                            this.state.running ? TimerStore.stopTimer() : TimerStore.startTimer()
                         }}
                     >
                         <RX.Text style={[_styles.optionText]}>
@@ -83,7 +83,7 @@ export default class TodoControl extends ComponentBase<object, PromodoroState> {
                     </RX.Button>
                     <RX.Button
                         style={[_styles.optionButton]}
-                        onPress={() => StopwatchStore.setupTimer(0, 0)}
+                        onPress={() => TimerStore.setupTimer(0, 0)}
                     >
                         <RX.Text style={[_styles.optionText]}>
                             {'Reset'}

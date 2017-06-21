@@ -6,13 +6,17 @@
     "web-watch": "webpack --progress --colors --watch",
     "rn-watch": "tsc --watch",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "install-deps": "npm i"
+    "install-deps": "npm i",
+    "test": "jest --watch"
   },
   "devDependencies": {
+    "@types/jest": "^20.0.1",
     "@types/node": "^7.0.12",
     "@types/webpack": "^2.2.14",
     "awesome-typescript-loader": "3.1.2",
+    "jest": "^20.0.4",
     "source-map-loader": "^0.1.6",
+    "ts-jest": "^20.0.6",
     "ts-node": "^3.0.2",
     "typescript": "2.2.2",
     "webpack": "2.2.1"
@@ -23,11 +27,20 @@
     "react-native": "0.42.3",
     "react-native-windows": "^0.33.0",
     "react-native-sqlite-storage": "^3.3.1",
-    "reactxp": "0.42.0-rc.10",
+    "reactxp": "0.42.0-rc.12",
     "reactxp-virtuallistview": "^0.1.3",
     "resub": "^0.0.16"
   },
   "jest": {
-    "preset": "react-native"
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }
